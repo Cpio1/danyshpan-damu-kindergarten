@@ -23,6 +23,7 @@ export default function About({ image }: { image: string | null }) {
               alt={`${SITE.name} балабақшасындағы орта`}
               shapeClass="shape-arch"
               className="aspect-[3/4] w-full"
+              imageClassName="object-[50%_35%]"
               sizes="(min-width: 1024px) 360px, 80vw"
               placeholderLabel="Фото жақында қосылады"
             />

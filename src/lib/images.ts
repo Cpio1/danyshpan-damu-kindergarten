@@ -9,8 +9,12 @@ const IMAGE_EXT = /\.(jpe?g|png|webp)$/i;
 
 /** Бас беттегі негізгі фото: public/images/main-page.(jpg|jpeg|png|webp) немесе public/main-page.* */
 const MAIN_BASENAME = "main-page";
-/** «Балабақша туралы» бөліміне арналған фото: public/images/about.(jpg|jpeg|png|webp) */
+/**
+ * Арка пішінді үлкен блоктағы фото («Балабақша туралы»):
+ * public/images/about.* немесе main-page2.* (public/images/ не public/ ішінде).
+ */
 const ABOUT_BASENAME = "about";
+const ABOUT_FALLBACK_BASENAME = "main-page2";
 
 export type GalleryImage = {
   src: string;
@@ -80,7 +84,7 @@ function findByBaseName(name: string): Found | null {
 
 export function getSiteImages(): SiteImages {
   const main = findByBaseName(MAIN_BASENAME);
-  const about = findByBaseName(ABOUT_BASENAME);
+  const about = findByBaseName(ABOUT_BASENAME) ?? findByBaseName(ABOUT_FALLBACK_BASENAME);
 
   // Негізгі және «туралы» суреттері галереяда қайталанбайды —
   // атауы басқа болса да, мазмұны бірдей файлдар да алынып тасталады.
@@ -90,7 +94,7 @@ export function getSiteImages(): SiteImages {
     if (buffer) seen.add(fileHash(buffer));
   }
 
-  const reserved = new Set([MAIN_BASENAME, ABOUT_BASENAME]);
+  const reserved = new Set([MAIN_BASENAME, ABOUT_BASENAME, ABOUT_FALLBACK_BASENAME]);
   const gallery: GalleryImage[] = [];
   for (const file of readImageFiles(IMAGES_DIR)) {
     if (reserved.has(baseName(file))) continue;
