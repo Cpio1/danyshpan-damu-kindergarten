@@ -53,7 +53,7 @@ export default function Hero({ image }: { image: string | null }) {
         </div>
 
         {/* Фото композициясы */}
-        <div className="relative mx-auto w-full max-w-[460px]">
+        <div className="relative mx-auto w-full max-w-[340px] sm:max-w-[400px]">
           <div aria-hidden className="absolute -top-3 -left-3 h-24 w-24 rounded-full bg-gold-light/60" />
           <div aria-hidden className="absolute -right-2 bottom-8 h-16 w-16 rounded-full border-4 border-dashed border-leaf-light" />
           <div aria-hidden className="shape-blob-2 absolute inset-0 translate-x-3 translate-y-4 bg-leaf-light/40" />
@@ -63,8 +63,9 @@ export default function Hero({ image }: { image: string | null }) {
               src={image}
               alt={`${SITE.name} балабақшасы`}
               shapeClass="shape-hero"
-              className="aspect-[1/1.02] w-full"
-              sizes="(min-width: 1024px) 460px, 90vw"
+              className="aspect-[4/5] w-full"
+              imageClassName="object-[50%_45%]"
+              sizes="(min-width: 640px) 400px, 340px"
               priority
               placeholderLabel="Балабақшаның фотосы жақында қосылады"
             />

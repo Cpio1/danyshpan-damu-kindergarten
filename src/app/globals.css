@@ -17,6 +17,7 @@
   --animate-sway: sway 7s ease-in-out infinite;
   --animate-spin-slow: spin 40s linear infinite;
   --animate-twinkle: twinkle 3.2s ease-in-out infinite;
+  --animate-gallery-in: gallery-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes float {
@@ -26,6 +27,17 @@
   }
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@keyframes gallery-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
@@ -99,6 +111,16 @@ body {
 }
 .shape-leaf-alt {
   border-radius: 12px 72px 12px 72px;
+}
+/* Төменгі жиегі толқынды пішін */
+.shape-wave {
+  border-radius: 28px 28px 0 0;
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 9px) no-repeat,
+    radial-gradient(circle 10px at 50% 0, #000 96%, transparent 100%) bottom / 20px 10px repeat-x;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 9px) no-repeat,
+    radial-gradient(circle 10px at 50% 0, #000 96%, transparent 100%) bottom / 20px 10px repeat-x;
 }
 .shape-pebble {
   border-radius: 36px 70px 40px 80px;

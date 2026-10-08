@@ -5,27 +5,28 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Camera, ChevronLeft, ChevronRight, ChevronsDown, ChevronsUp, X } from "lucide-react";
 import Reveal from "./Reveal";
 import SectionHeading from "./SectionHeading";
+import type { GalleryImage } from "@/lib/images";
 import { Cloud, Flower, Leaf, Sparkle, Star } from "./decor/Decor";
 
 const INITIAL_COUNT = 6;
 
 /**
- * Фотолардың кезектесетін пішіндері мен орналасуы (6 фотодан тұратын үлгі).
- * Мобильді (2 баған):  A B / A C / D D / E F
- * md+ (4 баған):       A B B C / A D D C / E E F F
+ * Фотолардың кезектесетін пішіндері. Әр фото өзінің түпнұсқа пропорциясын сақтайды:
+ * қатардағы фотолар бірдей биіктікте, ені — суреттің ені/биіктігі қатынасына сай.
  */
-const TILE_STYLES = [
-  { shape: "shape-arch", span: "row-span-2" },
-  { shape: "shape-cloud", span: "md:col-span-2" },
-  { shape: "shape-oval", span: "md:row-span-2" },
-  { shape: "shape-leaf", span: "col-span-2" },
-  { shape: "shape-pebble", span: "md:col-span-2" },
-  { shape: "shape-leaf-alt", span: "md:col-span-2" },
+const TILE_SHAPES = [
+  "shape-arch",
+  "shape-oval",
+  "shape-wave",
+  "shape-leaf",
+  "shape-pebble",
+  "shape-cloud",
+  "shape-leaf-alt",
 ];
 
 const altFor = (i: number) => `Балабақша өмірінен көрініс ${i + 1}`;
 
-export default function Gallery({ images }: { images: string[] }) {
+export default function Gallery({ images }: { images: GalleryImage[] }) {
   const [expanded, setExpanded] = useState(false);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -58,23 +59,37 @@ export default function Gallery({ images }: { images: string[] }) {
           <EmptyGallery />
         ) : (
           <>
-            <ul className="grid auto-rows-[140px] grid-cols-2 gap-3 sm:auto-rows-[170px] sm:gap-5 md:grid-cols-4 lg:auto-rows-[190px]">
-              {visible.map((src, i) => {
-                const style = TILE_STYLES[i % TILE_STYLES.length];
+            <ul className="flex flex-wrap justify-center gap-3 [--row-h:120px] sm:gap-5 sm:[--row-h:160px] lg:[--row-h:200px]">
+              {visible.map((img, i) => {
+                const shape = TILE_SHAPES[i % TILE_SHAPES.length];
+                const ratio = img.width / img.height;
+                const isNew = i >= INITIAL_COUNT;
                 return (
-                  <li key={src} className={style.span}>
+                  <li
+                    key={img.src}
+                    className={isNew ? "animate-gallery-in" : undefined}
+                    style={{
+                      flex: `${ratio} 1 calc(var(--row-h) * ${ratio})`,
+                      // Толық емес қатардағы фотолар тым үлкейіп кетпеуі үшін
+                      maxWidth: `calc(var(--row-h) * ${ratio} * 1.35)`,
+                      ...(isNew ? { animationDelay: `${(i - INITIAL_COUNT) * 70}ms` } : {}),
+                    }}
+                  >
                     <button
                       type="button"
                       onClick={() => setLightbox(i)}
                       aria-label={`${altFor(i)} — үлкейтіп көру`}
-                      className={`group relative block h-full w-full overflow-hidden bg-white p-1.5 shadow-[0_14px_30px_-18px_rgba(53,91,50,0.55)] transition duration-300 hover:shadow-[0_20px_36px_-18px_rgba(53,91,50,0.6)] ${style.shape}`}
+                      className={`group relative block w-full overflow-hidden bg-white p-1.5 shadow-[0_14px_30px_-18px_rgba(53,91,50,0.55)] ring-1 ring-gold/30 transition duration-300 hover:shadow-[0_20px_36px_-18px_rgba(53,91,50,0.6)] hover:ring-gold/70 ${shape}`}
                     >
-                      <span className={`relative block h-full w-full overflow-hidden ${style.shape}`}>
+                      <span
+                        className={`relative block w-full overflow-hidden bg-leaf-light/20 ${shape}`}
+                        style={{ aspectRatio: `${img.width} / ${img.height}` }}
+                      >
                         <Image
-                          src={src}
+                          src={img.src}
                           alt={altFor(i)}
                           fill
-                          sizes="(min-width: 768px) 540px, 100vw"
+                          sizes="(min-width: 1024px) 520px, (min-width: 640px) 50vw, 90vw"
                           className="object-cover transition duration-500 ease-out group-hover:scale-[1.06]"
                         />
                       </span>
@@ -110,7 +125,7 @@ export default function Gallery({ images }: { images: string[] }) {
       </div>
 
       {lightbox !== null && (
-        <Lightbox images={images} index={lightbox} onChange={setLightbox} onClose={() => setLightbox(null)} />
+        <Lightbox images={images.map((img) => img.src)} index={lightbox} onChange={setLightbox} onClose={() => setLightbox(null)} />
       )}
     </section>
   );

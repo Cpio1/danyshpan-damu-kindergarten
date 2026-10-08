@@ -10,6 +10,7 @@ type ShapedPhotoProps = {
   sizes: string;
   priority?: boolean;
   placeholderLabel?: string;
+  imageClassName?: string;
 };
 
 /**
@@ -23,11 +24,12 @@ export default function ShapedPhoto({
   sizes,
   priority = false,
   placeholderLabel,
+  imageClassName = "",
 }: ShapedPhotoProps) {
   return (
     <div className={`relative overflow-hidden ${shapeClass} ${className}`}>
       {src ? (
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={`object-cover ${imageClassName}`} />
       ) : (
         <div
           role="img"
