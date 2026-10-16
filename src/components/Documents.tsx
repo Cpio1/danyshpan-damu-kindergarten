@@ -1,11 +1,9 @@
-import { ExternalLink, FileText, Info as InfoIcon } from "lucide-react";
+import { ExternalLink, FileText } from "lucide-react";
 import { DOCUMENTS_URL } from "@/config/site";
 import Reveal from "./Reveal";
 import { Leaf, Pencil, Sparkle, Star } from "./decor/Decor";
 
 export default function Documents() {
-  const hasLink = DOCUMENTS_URL.trim().length > 0;
-
   return (
     <section id="documents" aria-labelledby="documents-title" className="relative overflow-hidden bg-cream py-16 sm:py-20">
       <div className="mx-auto max-w-[1120px] px-4 sm:px-6">
@@ -28,28 +26,20 @@ export default function Documents() {
               <h2 id="documents-title" className="text-[1.75rem] font-extrabold text-leaf-dark sm:text-[2.1rem]">
                 Құжаттар
               </h2>
-              {hasLink ? (
-                <>
-                  <p className="mt-2 text-base leading-relaxed text-ink/75 sm:text-lg">
-                    Балабақша құжаттарымен танысу үшін төмендегі батырманы басыңыз.
-                  </p>
-                  <a
-                    href={DOCUMENTS_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-5 inline-flex min-h-12 items-center gap-2 rounded-full bg-gold px-7 py-3 font-extrabold text-leaf-dark shadow-[0_10px_24px_-10px_rgba(212,175,55,0.9)] transition hover:-translate-y-0.5 hover:bg-[#c9a42c]"
-                  >
-                    Құжаттарды қарау
-                    <ExternalLink className="h-4 w-4" aria-hidden />
-                    <span className="sr-only">(жаңа бетте ашылады)</span>
-                  </a>
-                </>
-              ) : (
-                <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold/50 bg-cream px-5 py-2.5 font-bold text-leaf-dark">
-                  <InfoIcon className="h-4 w-4 shrink-0 text-gold" aria-hidden />
-                  Құжаттар сілтемесі жақында қосылады.
-                </p>
-              )}
+              <p className="mt-2 text-base leading-relaxed text-ink/75 sm:text-lg">
+                Балабақша құжаттарымен танысу үшін төмендегі батырманы басыңыз.
+              </p>
+              <a
+                href={DOCUMENTS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-7 py-3 font-extrabold text-leaf-dark shadow-[0_10px_24px_-10px_rgba(212,175,55,0.9)] transition hover:-translate-y-0.5 hover:bg-[#c9a42c] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf-dark sm:w-auto"
+              >
+                <FileText className="h-5 w-5 shrink-0" aria-hidden />
+                Құжаттарды қарау
+                <ExternalLink className="h-4 w-4 shrink-0" aria-hidden />
+                <span className="sr-only">(жаңа бетте ашылады)</span>
+              </a>
             </div>
           </div>
         </Reveal>

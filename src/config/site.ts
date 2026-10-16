@@ -5,10 +5,8 @@
 
 /**
  * Google Drive папкасына сілтеме.
- * Мысалы: "https://drive.google.com/drive/folders/XXXXXXXX"
- * Бос болса, «Құжаттар» бөлімінде батырманың орнына хабарлама көрсетіледі.
  */
-export const DOCUMENTS_URL = "";
+export const DOCUMENTS_URL = "https://drive.google.com/drive/folders/1bgcj1QKHdnR2R7aoCGXXdIi6knCSCfMx";
 
 export const SITE = {
   name: "Данышпан Даму бала",
